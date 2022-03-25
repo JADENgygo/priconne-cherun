@@ -9,7 +9,7 @@ const Home: NextPage = () => {
     memories: [...Array(30)].map((_) => 0),
     pointer: 0,
     programCounter: 0,
-    result: [] as number[],
+    results: [] as number[],
     error: "",
     stopped: false,
 
@@ -100,12 +100,12 @@ const Home: NextPage = () => {
     let memories = stateRef.current.memories;
     let pointer = stateRef.current.pointer;
     let programCounter = stateRef.current.programCounter;
-    let result = stateRef.current.result;
+    let results = stateRef.current.results;
     if (!stepped && !resumed) {
       memories = [...Array(30)].map((_) => 0);
       pointer = 0;
       programCounter = 0;
-      result = [];
+      results = [];
     }
     setState((prevState) => ({
       ...prevState,
@@ -142,7 +142,7 @@ const Home: NextPage = () => {
             memories: [...Array(30)].map((_) => 0),
             pointer: 0,
             programCounter: 0,
-            result: [],
+            results: [],
           }));
         }
         return;
@@ -184,7 +184,7 @@ const Home: NextPage = () => {
           break;
         }
         case ".":
-          result.push(memories[pointer]);
+          results.push(memories[pointer]);
           break;
         case "[": {
           if (memories[pointer] !== 0) {
@@ -236,7 +236,7 @@ const Home: NextPage = () => {
             memories,
             pointer,
             programCounter,
-            result,
+            results,
             runDisabled: false,
             stepDisabled: false,
             resumeDisabled: false,
@@ -252,7 +252,7 @@ const Home: NextPage = () => {
         memories,
         pointer,
         programCounter,
-        result,
+        results,
       }));
       if (stepped) {
         setState((prevState) => ({
@@ -495,16 +495,13 @@ const Home: NextPage = () => {
         ))}
       </div>
       <div className="mt-3 fw-bold">翻訳結果</div>
-      <div data-jest="result">{decode(state.result)}&nbsp;</div>
+      <div data-jest="result">{decode(state.results)}&nbsp;</div>
       <div className="mt-3 fw-bold">
         翻訳結果 (エンコード値, {state.radix}進数)
       </div>
       <div data-jest="encodedResult">
-        {" "}
-        {state.result
-          .map((value) => value.toString(state.radix))
-          .join(" ")}{" "}
-        &nbsp;{" "}
+        {state.results.map((value) => value.toString(state.radix)).join(" ")}
+        &nbsp;
       </div>
       <div className="mt-3 fw-bold">エラーメッセージ</div>
       <div className="text-danger" data-jest="error">
