@@ -9,7 +9,7 @@ const Home: NextPage = () => {
     memories: [...Array(30)].map((_) => 0),
     pointer: 0,
     programCounter: 0,
-    result: [] as number[],
+    results: [] as number[],
     error: "",
     stopped: false,
 
@@ -100,12 +100,12 @@ const Home: NextPage = () => {
     let memories = stateRef.current.memories;
     let pointer = stateRef.current.pointer;
     let programCounter = stateRef.current.programCounter;
-    let result = stateRef.current.result;
+    let results = stateRef.current.results;
     if (!stepped && !resumed) {
       memories = [...Array(30)].map((_) => 0);
       pointer = 0;
       programCounter = 0;
-      result = [];
+      results = [];
     }
     setState((prevState) => ({
       ...prevState,
@@ -142,7 +142,7 @@ const Home: NextPage = () => {
             memories: [...Array(30)].map((_) => 0),
             pointer: 0,
             programCounter: 0,
-            result: [],
+            results: [],
           }));
         }
         return;
@@ -184,7 +184,7 @@ const Home: NextPage = () => {
           break;
         }
         case ".":
-          result.push(memories[pointer]);
+          results.push(memories[pointer]);
           break;
         case "[": {
           if (memories[pointer] !== 0) {
@@ -236,7 +236,7 @@ const Home: NextPage = () => {
             memories,
             pointer,
             programCounter,
-            result,
+            results,
             runDisabled: false,
             stepDisabled: false,
             resumeDisabled: false,
@@ -252,7 +252,7 @@ const Home: NextPage = () => {
         memories,
         pointer,
         programCounter,
-        result,
+        results,
       }));
       if (stepped) {
         setState((prevState) => ({
@@ -407,6 +407,7 @@ const Home: NextPage = () => {
             onChange={updateCheru}
             as="textarea"
             rows={5}
+            data-jest="cheru"
           />
         </Form.Group>
         <Form.Group controlId="source" className="mt-3">
@@ -417,6 +418,7 @@ const Home: NextPage = () => {
             as="textarea"
             rows={5}
             readOnly
+            data-jest="brainf"
           />
         </Form.Group>
       </Form>
@@ -426,6 +428,7 @@ const Home: NextPage = () => {
           disabled={state.runDisabled}
           className="btn btn-dark me-2"
           onClick={() => run(false, false)}
+          data-jest="run"
         >
           実行
         </button>
@@ -434,6 +437,7 @@ const Home: NextPage = () => {
           disabled={state.stepDisabled}
           className="btn btn-dark me-2"
           onClick={() => run(true, false)}
+          data-jest="step"
         >
           ステップ
         </button>
@@ -442,6 +446,7 @@ const Home: NextPage = () => {
           disabled={state.resumeDisabled}
           className="btn btn-dark me-2"
           onClick={() => run(false, true)}
+          data-jest="resume"
         >
           再開
         </button>
@@ -450,6 +455,7 @@ const Home: NextPage = () => {
           disabled={state.stopDisabled}
           className="btn btn-dark"
           onClick={stop}
+          data-jest="stop"
         >
           停止
         </button>
@@ -457,8 +463,8 @@ const Home: NextPage = () => {
       <button type="button" className="btn btn-dark mt-3" onClick={changeRadix}>
         10/16進数切替
       </button>
-      <div className="mt-3 fw-bold">次の実行位置</div>
-      <div className="text-break">
+      <div className="mt-3 fw-bold">実行位置</div>
+      <div className="text-break" data-jest="position">
         {[...Array(state.source.length)].map((_, index) =>
           index === state.programCounter ? (
             <span key={index} className="bg-info">
@@ -474,6 +480,7 @@ const Home: NextPage = () => {
       <div className="d-flex flex-wrap">
         {state.memories.map((_, index) => (
           <div
+            data-jest={"memory" + index}
             key={index}
             className={"me-3 " + (index === state.pointer ? "bg-info" : "")}
           >
@@ -488,19 +495,18 @@ const Home: NextPage = () => {
         ))}
       </div>
       <div className="mt-3 fw-bold">翻訳結果</div>
-      <div>{decode(state.result)}&nbsp;</div>
+      <div data-jest="result">{decode(state.results)}&nbsp;</div>
       <div className="mt-3 fw-bold">
         翻訳結果 (エンコード値, {state.radix}進数)
       </div>
-      <div>
-        {" "}
-        {state.result
-          .map((value) => value.toString(state.radix))
-          .join(" ")}{" "}
-        &nbsp;{" "}
+      <div data-jest="encodedResult">
+        {state.results.map((value) => value.toString(state.radix)).join(" ")}
+        &nbsp;
       </div>
       <div className="mt-3 fw-bold">エラーメッセージ</div>
-      <div className="text-danger">{state.error}&nbsp;</div>
+      <div className="text-danger" data-jest="error">
+        {state.error}&nbsp;
+      </div>
       <div className="mt-3">サンプルコード</div>
       <Accordion className="mt-2">
         <Accordion.Item eventKey="0">
