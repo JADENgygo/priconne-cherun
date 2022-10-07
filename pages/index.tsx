@@ -348,7 +348,7 @@ const Home: NextPage = () => {
   return (
     <div className="container mt-3">
       <div>
-        ちぇる語の翻訳機です(Brainf***のちぇる版)。エンコードはUTF-8なので日本語も出力できます。
+        ちぇる語の翻訳ツールです(Brainf***のちぇる語版)。エンコードはUTF-8なので日本語も出力できます。
       </div>
       <Table striped hover size="sm" className="text-center">
         <caption className="mt-3 fw-bold caption-top text-center">
