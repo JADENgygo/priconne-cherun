@@ -15,8 +15,8 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: "16"
-      - run: yarn install
-      - run: yarn test
+      - run: npm install
+      - run: npm test
       - if: success()
         run: |
           message=$(git log --oneline -n 1 | sed -E 's/^\S+ (.+)/\1/')
