@@ -27,13 +27,39 @@ a, a:hover {
 }
 
 .dark {
-  filter: invert(1) hue-rotate(180deg);
+  background-color: $dark;
+  color: $light;
 
-  body {
-    background-color: $gray-300;
+  $accordion-icon-color: $light;
+  $accordion-button-icon: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='#{$accordion-icon-color}'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>");
+  $accordion-button-active-icon: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='#{$accordion-icon-active-color}'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>");
+
+  .accordion-button, .accordion-body {
+    background-color: $dark !important;
+    color: $light !important;
   }
 
-  .keep {
-    filter: invert(1) hue-rotate(180deg);
+  .accordion-button[aria-expanded="true"] {
+    background-color: $black !important;
   }
+
+  textarea, textarea:focus {
+    color: $light !important;
+    background-color: $dark !important;
+  }
+
+  th, td {
+    color: $light !important;
+  }
+
+  tr:nth-child(odd):not(thead > tr) {
+    background-color: $black;
+  }
+
+  a, a:hover {
+    color: $light;
+  }
+
+  @import "../node_modules/bootstrap/scss/mixins";
+  @import "../node_modules/bootstrap/scss/accordion";
 }

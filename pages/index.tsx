@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import { useState, useRef } from "react";
 import { Form, Table, Accordion } from "react-bootstrap";
+import { GetServerSideProps } from "next";
 
 const Home: NextPage = () => {
   const [state, setState] = useState({
@@ -350,7 +351,7 @@ const Home: NextPage = () => {
       <div>
         ちぇる語の翻訳ツールです(Brainf***のちぇる語版)。エンコードはUTF-8なので日本語も出力できます。
       </div>
-      <Table striped hover size="sm" className="text-center">
+      <Table striped size="sm" className="text-center">
         <caption className="mt-3 fw-bold caption-top text-center">
           対応表
         </caption>
@@ -426,7 +427,7 @@ const Home: NextPage = () => {
         <button
           type="button"
           disabled={state.runDisabled}
-          className="btn btn-dark me-2"
+          className="btn btn-primary me-2"
           onClick={() => run(false, false)}
           data-jest="run"
         >
@@ -435,7 +436,7 @@ const Home: NextPage = () => {
         <button
           type="button"
           disabled={state.stepDisabled}
-          className="btn btn-dark me-2"
+          className="btn btn-primary me-2"
           onClick={() => run(true, false)}
           data-jest="step"
         >
@@ -444,7 +445,7 @@ const Home: NextPage = () => {
         <button
           type="button"
           disabled={state.resumeDisabled}
-          className="btn btn-dark me-2"
+          className="btn btn-primary me-2"
           onClick={() => run(false, true)}
           data-jest="resume"
         >
@@ -453,14 +454,14 @@ const Home: NextPage = () => {
         <button
           type="button"
           disabled={state.stopDisabled}
-          className="btn btn-dark"
+          className="btn btn-primary"
           onClick={stop}
           data-jest="stop"
         >
           停止
         </button>
       </div>
-      <button type="button" className="btn btn-dark mt-3" onClick={changeRadix}>
+      <button type="button" className="btn btn-primary mt-3" onClick={changeRadix}>
         10/16進数切替
       </button>
       <div className="mt-3 fw-bold">実行位置</div>
@@ -612,3 +613,7 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  return { props: {}};
+}
